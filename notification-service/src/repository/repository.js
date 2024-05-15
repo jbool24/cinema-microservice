@@ -2,7 +2,7 @@
 const repository = (container) => {
   const sendEmail = (payload) => {
     return new Promise((resolve, reject) => {
-      const {smtpSettings, smtpTransport, nodemailer} = container.cradle
+      const { smtpSettings, smtpTransport, nodemailer } = container.cradle
 
       const transporter = nodemailer.createTransport(
         smtpTransport({
@@ -62,4 +62,4 @@ const connect = (container) => {
   })
 }
 
-module.exports = Object.assign({}, {connect})
+module.exports = Object.assign({}, { connect })

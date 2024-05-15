@@ -6,13 +6,13 @@ const repository = (db) => {
   const getAllMovies = () => {
     return new Promise((resolve, reject) => {
       const movies = []
-      const cursor = collection.find({}, {title: 1, id: 1})
+      const cursor = collection.find({}, { title: 1, id: 1 })
       const addMovie = (movie) => {
         movies.push(movie)
       }
       const sendMovies = (err) => {
         if (err) {
-          reject(new Error('An error occured fetching all movies, err:' + err))
+          reject(new Error('An error occurred fetching all movies, err:' + err))
         }
         resolve(movies.slice())
       }
@@ -60,7 +60,7 @@ const repository = (db) => {
         }
         resolve(movie)
       }
-      collection.findOne({id: id}, projection, sendMovie)
+      collection.findOne({ id: id }, projection, sendMovie)
     })
   }
 
@@ -85,4 +85,4 @@ const connect = (connection) => {
   })
 }
 
-module.exports = Object.assign({}, {connect})
+module.exports = Object.assign({}, { connect })

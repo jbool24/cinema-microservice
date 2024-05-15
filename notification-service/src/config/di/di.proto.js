@@ -28,7 +28,7 @@ const createContainer = () => {
   const registrations = {}
   // returns the DI
   const container = {
-    get registrations () {
+    get registrations() {
       return Object.assign({}, registrations)
     }
   }
@@ -37,7 +37,7 @@ const createContainer = () => {
   container.cache = {}
 
   const getDI = new Proxy({}, {
-    get: (taget, name) => resolve(name),
+    get: (target, name) => resolve(name),
     set: (target, name, value) => {
       throw new Error('cannot set a value to the container')
     }
@@ -47,7 +47,7 @@ const createContainer = () => {
 
   const register = (name, registration, opts) => {
     const key = Symbol(name)
-    registrations[key] = Object.assign({}, {fn: registration}, {lifetime: opts})
+    registrations[key] = Object.assign({}, { fn: registration }, { lifetime: opts })
     return container
   }
 

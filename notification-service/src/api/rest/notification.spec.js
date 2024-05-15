@@ -4,9 +4,9 @@ const nodemailer = require('nodemailer')
 const smtpTransport = require('nodemailer-smtp-transport')
 const should = require('should')
 const request = require('supertest')
-const server = require('../server/server')
-const models = require('../models')
-const {smtpSettings} = require('../config/config')
+const server = require('../../server/server')
+const models = require('../../models')
+const { smtpSettings } = require('../../config/config')
 
 describe('Booking API', () => {
   let app = null
@@ -26,9 +26,9 @@ describe('Booking API', () => {
   })
 
   let _testRepo = {
-    sendEmail ({container}, payload) {
+    sendEmail({ container }, payload) {
       return new Promise((resolve, reject) => {
-        const {smtpSettings, smtpTransport, nodemailer} = container.cradle
+        const { smtpSettings, smtpTransport, nodemailer } = container.cradle
 
         const transporter = nodemailer.createTransport(
           smtpTransport({
@@ -72,9 +72,9 @@ describe('Booking API', () => {
 
   const testRepo = {}
 
-  testRepo.sendEmail = _testRepo.sendEmail.bind(null, {container})
+  testRepo.sendEmail = _testRepo.sendEmail.bind(null, { container })
 
-  container.registerValue({repo: testRepo})
+  container.registerValue({ repo: testRepo })
 
   beforeEach(() => {
     return server.start(container)
@@ -113,7 +113,7 @@ describe('Booking API', () => {
 
     request(app)
       .post('/notification/sendEmail')
-      .send({payload})
+      .send({ payload })
       .expect((res) => {
         should.ok(res.body)
       })

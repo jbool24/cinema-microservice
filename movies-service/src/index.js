@@ -1,8 +1,8 @@
 'use strict'
-const {EventEmitter} = require('events')
+const { EventEmitter } = require('events')
 const server = require('./server/server')
 const repository = require('./repository/repository')
-const config = require('./config/')
+const config = require('./config')
 const mediator = new EventEmitter()
 
 console.log('--- Movies Service ---')
@@ -16,24 +16,22 @@ process.on('uncaughtRejection', (err, promise) => {
   console.error('Unhandled Rejection', err)
 })
 
-mediator.on('db.ready', (db) => {
-  let rep
-  repository.connect(db)
-    .then(repo => {
-      console.log('Connected. Starting Server')
-      rep = repo
-      return server.start({
-        port: config.serverSettings.port,
-        ssl: config.serverSettings.ssl,
-        repo
-      })
-    })
-    .then(app => {
-      console.log(`Server started succesfully, running on port: ${config.serverSettings.port}.`)
-      app.on('close', () => {
-        rep.disconnect()
-      })
-    })
+mediator.on('db.ready', async (db) => {
+  const repo = await repository.connect(db);
+
+  console.log('Connected. Starting Server')
+
+  const app = await server.start({
+    port: config.serverSettings.port,
+    ssl: config.serverSettings.ssl,
+    repo
+  })
+
+  console.log(`Server started successfully, running on port: ${config.serverSettings.port}.`);
+
+  app.on('close', () => {
+    repo.disconnect()
+  })
 })
 
 mediator.on('db.error', (err) => {

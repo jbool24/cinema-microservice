@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 const test = require('assert')
-const {validate} = require('./')
+const { validate } = require('./')
 
 console.log(Object.getPrototypeOf(validate))
 
